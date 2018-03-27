@@ -11,9 +11,10 @@ on a Mac running osX 10.13.3.
 
 I've tested the code and the server works locally. I'm trying to figure out how to enter into the code with the debugger so I can learn how to use the debugger on other projects.
 
-These are the best instructions I've found on using VScode with GAE but they seem to be outdated:  
+These were the best instructions I could find for using VScode with GAE but they seem to be outdated based on updates to Golang(e.g.  switch to Gcloud, -go_debugging flag and change of directory structure):  
 https://medium.com/@dbenque/debugging-golang-appengine-module-with-visual-studio-code-85b3aa59e0f 
 
+Here are the steps I took:
 # set up Environment
 - added to .bash_profile  
 

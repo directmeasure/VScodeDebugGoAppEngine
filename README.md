@@ -49,7 +49,7 @@ Here is the launch.json config:
                 "name": "Launch Go Hello World",
                 "type": "go",
                 "request": "launch",
-                "mode": "remote",
+                "mode": "debug",
                 "remotePath": "${workspaceRoot}",
                 "port": 2345,
                 "host": "127.0.0.1",
@@ -59,7 +59,8 @@ Here is the launch.json config:
                 "program": "${workspaceFolder}/hello.go",
                 "env": {},
                 "args": [],
-                "showLog": true
+                "showLog": true,
+                "trace": "verbose"  
             }
         ]
     }

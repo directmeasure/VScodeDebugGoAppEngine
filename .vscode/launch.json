@@ -8,17 +8,17 @@
             "name": "Launch Go Hello World",
             "type": "go",
             "request": "launch",
-            "mode": "remote",
+            "mode": "remote", 
+            // tutorial says mode": "remote with the Delve server default port @ 2345
+            // but when I have that setting, the debug console remains blank.
             "remotePath": "${workspaceRoot}",
             "port": 2345,
             "host": "127.0.0.1",
-            // Removed these because this is not used
-            //"port": 2345,
-            //"host": "127.0.0.1",
             "program": "${workspaceFolder}/hello.go",
             "env": {},
             "args": [],
-            "showLog": true
+            "showLog": true,
+            "trace": "verbose"
         }
     ]
 }

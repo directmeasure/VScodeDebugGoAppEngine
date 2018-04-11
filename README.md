@@ -3,9 +3,7 @@ Hello World tutorial that shows how to setup VS Code to debug Golang App Engine 
 
 This is using using the Helloworld code from AppEngine documentation:
 
-   
-
-    go get -u -d github.com/GoogleCloudPlatform/golang-samples/appengine/helloworld/
+    go get -u -d github.com/directmeasure/VScodeDebugGoAppEngine.git
 
 on a Mac running osX 10.13.3.   
 
@@ -27,68 +25,58 @@ How I have attempted to get debugger to run:
 
     dev_appserver.py --go_debugging=true app.yaml
 
-# attach local binary to Delve
-
-   
-
-     ps aux | grep _go_app 
-    
-    dlv attach <#using the PID from the server binary>
-
-Delve successfully attaches to the binary.
-
-When I start the **Debug session**, the blue progress bar never stops scanning horizontally.
-
-The VARIABLE sidebar is never populated with the variabels in hello.go
 
 The Breakpoint is set at hello.go: line 21
 
-The Debug REPL terminal displays: 
+# attach local binary to Delve  
+
+$ ps aux | grep _go_app
+
+    Bryan             653   0.0  0.0  2434840    800 s000  S+    5:00PM   0:00.00 grep _go_app
+    Bryan             649   0.0  0.0 556601764   3804 s002  S+    5:00PM   0:00.01 /var/folders/mw/0y88j8_54bjc93d_lg3120qw0000gp/T/tmp9SrojIappengine-go-bin/_go_app
+
+Bryan@Bryans-MacBook-Pro Tue Apr 10 17:00:38 ~ 
+$ dlv attach --headless -l "localhost:2345" 649 
+
+    /var/folders/mw/0y88j8_54bjc93d_lg3120qw0000gp/T/tmp9SrojIappengine-go-bin/_go_app
+    API server listening at: 127.0.0.1:2345
+
+
+**Starting Debug Session:**  
+https://github.com/Microsoft/vscode-go/wiki/Debugging-Go-code-using-VS-Code#remote-debugging  
+Above docs suggest that the port should be the same as assigned to the headless Delve server set above "2345"
+
+When "port":"2345" is the same as assigned port headless Delve server. 
+Debugger REPL window:
 
     Verbose logs are written to:
     /var/folders/mw/0y88j8_54bjc93d_lg3120qw0000gp/T/vscode-go-debug.txt
-    16:02:31, 2018-4-5
-    InitializeRequest
-    InitializeResponse
-    Using GOPATH: /Users/Bryan/go
-    fmt.Print(u)
-    Please start a debug session to evaluate
+    couldn't start listener: listen tcp 127.0.0.1:2345: bind: address already in use
+    Process exiting with code: 1
 
+When "port": "1234", REPL window shows:
 
-Here is the launch.json config:
+    Verbose logs are written to:
+    /var/folders/mw/0y88j8_54bjc93d_lg3120qw0000gp/T/vscode-go-debug.txt
+    2018/04/11 10:25:06 server.go:73: Using API v1
+    2018/04/11 10:25:06 debugger.go:98: launching process with args: [/Users/Bryan/Dropbox/go/src/helloworld/debug]
+    API server listening at: 127.0.0.1:1234
+    2018/04/11 10:25:07 debugger.go:340: created breakpoint: &api.Breakpoint{ID:1, Name:"", Addr:0x20c4, File:"/Users/Bryan/Dropbox/go/src/helloworld/hello.go", Line:21, FunctionName:"main.handle", Cond:"", Tracepoint:false, Goroutine:false, Stacktrace:0, Variables:[]string(nil), LoadArgs:(*api.LoadConfig)(nil), LoadLocals:(*api.LoadConfig)(nil), HitCount:map[string]uint64{}, TotalHitCount:0x0}
+    2018/04/11 10:25:07 debugger.go:497: continuing
+    
+The VARIABLE sidebar in Debug mode is never populated with the variables in hello.go
 
-    {
-        "version": "0.2.0",
-        "configurations": [
-            {
-            "name": "Launch Go Hello World",
-            "type": "go",
-            "request": "launch",
-            "mode": "remote", 
-            "remotePath": "${workspaceRoot}",
-            "port": 2345,
-            "host": "127.0.0.1",
-            "program": "${workspaceFolder}/hello.go",
-            "env": {},
-            "args": [],
-            "showLog": true,
-            "trace": "verbose"
-            }
-        ]
-    }
 
 Here are the versions I have installed:  
 
-    go version go1.10 darwin/amd64  
-    $ gcloud version . 
-    Google Cloud SDK 196.0.0 . 
-    app-engine-go . 
-    app-engine-python 1.9.67 . 
-    bq 2.0.30 . 
-    core 2018.03.09 . 
-    gcloud . 
-    gsutil 4.28 . 
-    
-    VS code extension:
-    Go 0.6.78
+        go version go1.10 darwin/amd64  
+        $ gcloud version . 
+        Google Cloud SDK 197.0.0
+        app-engine-go 
+        app-engine-python 1.9.68
+        bq 2.0.31
+        core 2018.04.06
+        gsutil 4.30
 
+        VS code extension:
+        Go 0.6.78

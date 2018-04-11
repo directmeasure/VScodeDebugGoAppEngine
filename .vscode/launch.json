@@ -5,20 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Go Hello World",
+            "name": "Launch",
             "type": "go",
             "request": "launch",
-            "mode": "remote", 
-            // tutorial says mode": "remote with the Delve server default port @ 2345
-            // but when I have that setting, the debug console remains blank.
-            "remotePath": "${workspaceRoot}",
-            "port": 2345,
+            "mode": "debug",
+            "remotePath": "",
+            //"port": 1234,  
+            "port": 2345   // docs say port should match assigned port headless server, https://github.com/Microsoft/vscode-go/wiki/Debugging-Go-code-using-VS-Code#remote-debugging
+                             // this creates bind error
             "host": "127.0.0.1",
             "program": "${workspaceFolder}/hello.go",
             "env": {},
             "args": [],
             "showLog": true,
-            "trace": "verbose"
+            "trace": true,
         }
     ]
 }
